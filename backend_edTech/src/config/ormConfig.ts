@@ -5,6 +5,7 @@ import { Subject } from "../entities/Subject";
 import { Session } from "../entities/Session";
 import { Class } from "../entities/Class";
 import dotenv from "dotenv";
+import { Attendance } from "../entities/Attendance";
 
 dotenv.config();
 
@@ -17,6 +18,6 @@ export const AppDataSource = new DataSource({
     database: process.env.DB_NAME || "edtech",
     synchronize: false,
     logging: true,
-    entities: [User, Subject, Session, Class],
+    entities: [User, Subject, Session, Class, Attendance],
     migrations: ["src/migrations/*.ts"],
 });

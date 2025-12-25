@@ -2,7 +2,7 @@ import express from "express";
 import type { Response as ExpressRes, Request as ExpressReq}  from "express";
 import dotenv from "dotenv";
 import { AppDataSource } from "./config/ormConfig";
-
+import allRoutes from "./routes/index";
 dotenv.config();
 const app = express();
 
@@ -12,6 +12,8 @@ const port = process.env.PORT || 3000;
 app.get("/", (req: ExpressReq, res: ExpressRes)=>{
     res.send("application edTech runing");
 })
+
+app.use("/api", allRoutes);
 
 AppDataSource.initialize()
     .then(() => {

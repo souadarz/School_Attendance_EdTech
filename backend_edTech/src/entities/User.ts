@@ -1,4 +1,4 @@
-import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Role } from "../../../shared/enums/Role.enum";
 import { Class } from "./Class";
 import { Session } from "./Session";
@@ -23,6 +23,12 @@ export class User {
 
   @Column({ type: "enum", enum: Role })
   role: Role;
+
+  // @CreateDateColumn() 
+  // createdAt : Date ;
+
+  // @CreateDateColumn() 
+  // updatedAt : Date ; 
 
   @ManyToOne(() => Class, (classe) => classe.students, { nullable: true })
   class?: Class;

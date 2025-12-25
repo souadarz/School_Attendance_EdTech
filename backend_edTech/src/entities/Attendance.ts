@@ -15,5 +15,5 @@ export class Attendance{
     student: User;
 
     @ManyToOne(() => Session, (session) => session.attendances)
-    session: AttendanceStatus;
+    session: Session;
 }
