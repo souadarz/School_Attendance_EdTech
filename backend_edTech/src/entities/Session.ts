@@ -2,6 +2,7 @@ import { Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "t
 import { Class } from "./Class";
 import { User } from "./User";
 import { Subject } from "./Subject";
+import { Attendance } from "./Attendance";
 
 @Entity("sessions")
 export class Session{
@@ -23,5 +24,6 @@ export class Session{
     @ManyToOne(() => User, (user) => user.sessions)
     teacher: User;
 
-    // @ManyToMany(())
+    @ManyToMany(() => Attendance, (Attendance) => Attendance.session)
+    attendances: Attendance[];
 }

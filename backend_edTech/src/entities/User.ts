@@ -2,6 +2,7 @@ import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGen
 import { Role } from "../../../shared/enums/Role.enum";
 import { Class } from "./Class";
 import { Session } from "./Session";
+import { Attendance } from "./Attendance";
 
 @Entity("users")
 export class User {
@@ -30,9 +31,9 @@ export class User {
   @OneToMany(() => Session, (session) => session.teacher)
   sessions: Session[];
 
-  // // Étudiant → présences
-//   @OneToMany(() => Attendance, (attendance) => attendance.student)
-//   attendances: Attendance[];
+  // Étudiant → présences
+  @OneToMany(() => Attendance, (attendance) => attendance.student)
+  attendances: Attendance[];
 
   @ManyToMany(() => User, (user) => user.parents)
   @JoinTable({
