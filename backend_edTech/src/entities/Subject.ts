@@ -1,14 +1,20 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Session } from "./Session";
 
 @Entity("subjects")
-export class Subject{
-    @PrimaryGeneratedColumn()
-    id: number;
+export class Subject {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    name: string;
+  @Column()
+  name: string;
 
-    @OneToMany(() => Session, (session) => session.subject)
-    sessions: Session;
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @OneToMany(() => Session, (session) => session.subject)
+  sessions: Session[];
 }

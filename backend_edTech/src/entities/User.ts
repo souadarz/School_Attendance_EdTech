@@ -1,8 +1,9 @@
-import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Role } from "../../../shared/enums/Role.enum";
 import { Class } from "./Class";
 import { Session } from "./Session";
 import { Attendance } from "./Attendance";
+import { ParentStudent } from "./ParentStudent";
 
 @Entity("users")
 export class User {
@@ -24,31 +25,26 @@ export class User {
   @Column({ type: "enum", enum: Role })
   role: Role;
 
-  // @CreateDateColumn() 
-  // createdAt : Date ;
+  @CreateDateColumn() 
+  createdAt : Date ;
 
-  // @CreateDateColumn() 
-  // updatedAt : Date ; 
+  @UpdateDateColumn() 
+  updatedAt : Date ; 
 
   @ManyToOne(() => Class, (classe) => classe.students, { nullable: true })
   class?: Class;
 
   // Enseignant -> sessions
-  @OneToMany(() => Session, (session) => session.teacher)
+  @OneToMany(() => Session, (session) => session.teacher, { nullable: true })
   sessions: Session[];
 
   // Étudiant → présences
-  @OneToMany(() => Attendance, (attendance) => attendance.student)
+  @OneToMany(() => Attendance, (attendance) => attendance.student, { nullable: true })
   attendances: Attendance[];
 
-  @ManyToMany(() => User, (user) => user.parents)
-  @JoinTable({
-    name: "parent_student",
-    joinColumn: { name: "parent_id" },
-    inverseJoinColumn: { name: "student_id" },
-  })
-  children: User[];
+  @OneToMany(() => ParentStudent, (user) => user.student)
+  parents: ParentStudent[];
 
-  @ManyToMany(() => User, (user) => user.children)
-  parents: User[];
+  @OneToMany(() => ParentStudent, (user) => user.parent)
+  childrens: ParentStudent[];
 }

@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { User } from "./User";
 import { Session } from "./Session";
 
@@ -10,8 +10,11 @@ export class Class {
   @Column()
   name: string;
 
-  @Column()
-  level: string;
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 
   @OneToMany(() => User, (user) => user.class)
   students: User[];
