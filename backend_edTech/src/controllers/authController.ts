@@ -4,8 +4,7 @@ import { User } from "../entities/User";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-export class AuthController {
-  static login = async (req: Request, res: Response) => {
+  export const login = async (req: Request, res: Response) => {
     try {
       const { email, password } = req.body;
 
@@ -50,4 +49,3 @@ export class AuthController {
       return res.status(500).json({ message: "Erreur serveur." });
     }
   };
-}

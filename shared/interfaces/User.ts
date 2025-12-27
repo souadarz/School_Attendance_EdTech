@@ -8,7 +8,7 @@ export interface User {
   id: number;
   fullname: string;
   email: string;
-  password: string;
+  password?: string;
   studentCode?: string | null;
   role: Role;
   createdAt: Date;
