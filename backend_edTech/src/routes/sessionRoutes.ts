@@ -1,5 +1,5 @@
 import express from "express"
-import { createSession, deleteSession, getAllSession, getSessionById, updateSession } from "../controllers/SessionController";
+import { createSession, deleteSession, getAllSession, getSessionById, updateSession } from "../controllers/sessionController";
 
 const router = express.Router();
 

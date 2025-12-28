@@ -35,7 +35,7 @@ export const create = async (data: CreateSessionDTO): Promise<Session> => {
 
 export const findAll = async (): Promise<Session[]> => {
   return sessionRepository.find({
-    relations: ["class", "subject", "teacher", "attendance"]
+    relations: ["class", "subject", "teacher", "attendances"]
   });  
 }
 

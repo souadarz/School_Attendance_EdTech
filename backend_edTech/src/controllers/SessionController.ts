@@ -5,7 +5,7 @@ import {
   findAll,
   findById,
   update,
-} from "../services/SessionService";
+} from "../services/sessionService";
 import { CreateSessionDTO } from "../dtos/session/createSessionDto";
 
 export const createSession = async (req: Request, res: Response) => {
@@ -30,13 +30,13 @@ export const getAllSession = async (req: Request, res: Response) => {
 
     res.status(200).json({
       success: true,
-      message: "sessions retreived successfuly",
+      message: "sessions retrieved successfuly",
       data: sessions,
     });
   } catch (error: any) {
     res
       .status(500)
-      .json({ message: error.message || "failed to retreive sessions" });
+      .json({ message: error.message || "failed to retrieve sessions" });
   }
 };
 
@@ -52,13 +52,13 @@ export const getSessionById = async (req: Request, res: Response) => {
 
     res.status(200).json({
       success: true,
-      message: "session retreived with success",
+      message: "session retrieved with success",
       data: session,
     });
   } catch (error: any) {
     res
       .status(500)
-      .json({ message: error.message || "failed to retreive sessions" });
+      .json({ message: error.message || "failed to retrieve sessions" });
   }
 };
 
@@ -72,7 +72,9 @@ export const updateSession = async (req: Request, res: Response) => {
       data: session,
     });
   } catch (error: any) {
-    res.status(400).json({ message: error.message || "failed to update session"});
+    res
+      .status(400)
+      .json({ message: error.message || "failed to update session" });
   }
 };
 
@@ -82,6 +84,6 @@ export const deleteSession = async (req: Request, res: Response) => {
     await delet(id);
     res.json({ message: "Session deleted successfully" });
   } catch (error: any) {
-    res.status(400).json({ message: error.message });
+    res.status(404).json({ message: error.message });
   }
 };
