@@ -4,7 +4,7 @@ import { CreateAttendanceDTO } from "../dtos/attedance/cearteAttendanceDto";
 import { Attendance } from "../entities/Attendance";
 import { Session } from "../entities/Session";
 import { User } from "../entities/User";
-import { UpdateAttendanceDTO } from "../dtos/attedance/updateattendanceDto";
+import { UpdateAttendanceDTO } from "../dtos/attedance/updateAttendanceDto";
 
 const UserRepository = AppDataSource.getRepository(User);
 const sessionRepository = AppDataSource.getRepository(Session);

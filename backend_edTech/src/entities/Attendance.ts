@@ -5,7 +5,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { AttendanceStatus } from "../../../shared/enums/AttendanceStatu.enum";
+import { AttendanceStatus } from "../../../shared/enums/AttendanceStatus.enum";
 import { User } from "./User";
 import { Session } from "./Session";
 
@@ -20,9 +20,11 @@ export class Attendance {
   @CreateDateColumn()
   createdAt: Date;
 
-  @ManyToOne(() => User, (user) => user.attendances, {onDelete: "CASCADE"})
+  @ManyToOne(() => User, (user) => user.attendances, { onDelete: "CASCADE" })
   student: User;
 
-  @ManyToOne(() => Session, (session) => session.attendances, {onDelete: "CASCADE"})
+  @ManyToOne(() => Session, (session) => session.attendances, {
+    onDelete: "CASCADE",
+  })
   session: Session;
 }
