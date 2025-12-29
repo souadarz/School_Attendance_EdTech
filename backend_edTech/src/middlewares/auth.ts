@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { Role } from "../../../shared/index.js";
+import { Role } from "../../../shared/index";
 import { User } from "../entities/User";
-import { AppDataSource } from "../config/ormConfig.js";
+import { AppDataSource } from "../config/ormConfig";
 
 const JWT_SECRET = process.env.JWT_SECRET!;
 const userRepository = AppDataSource.getRepository(User);

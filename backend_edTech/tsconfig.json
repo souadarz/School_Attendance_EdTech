@@ -1,4 +1,3 @@
-
 {
   "compilerOptions": {
     "outDir": "./dist",
@@ -10,10 +9,11 @@
     "esModuleInterop": true,
     "rootDir": "..",
 
+    "typeRoots": ["./src/types", "./node_modules/@types"],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "strictPropertyInitialization": false,
+    "strictPropertyInitialization": false
   },
-  "include": ["src/**/*", "../shared/**/*" ],
+  "include": ["src/**/*", "../shared/**/*"],
   "exclude": ["node_modules", "dist"]
 }
