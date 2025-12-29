@@ -1,6 +1,12 @@
 import { Request, Response } from "express";
 import { getStudents } from "../services/userService";
 
+export const getUserConnected = async (req: Request, res : Response) =>{
+ return res.json({
+    user: req.user,
+  });
+};
+
 export const getAllStudents = async (req: Request, res : Response) =>{
     try{
     const students = await getStudents();
