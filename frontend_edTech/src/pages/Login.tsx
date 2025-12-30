@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Role } from "../../../shared/enums/Role.enum";
 import api from "../services/axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
 export function Login() {
   const [email, setEmail] = useState<string>("");
@@ -9,6 +10,7 @@ export function Login() {
   const [role, setRole] = useState<Role>(Role.TEACHER);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSubmit = async (
     e: React.FormEvent<HTMLButtonElement>
@@ -20,7 +22,15 @@ export function Login() {
       console.log("inside handle submit");
       const res = await api.post("/auth/login", { email, password, role });
       console.log("API Response:", res.data);
-      navigate("/dashboardAdmin");
+      login(res.data.user, res.data.token);
+
+      if (res.data.user.role === Role.ADMIN) {
+        navigate("/dashboardAdmin");
+      } else if (res.data.user.role === Role.TEACHER){
+        navigate("/dashboardTeacher");
+      }else {
+        navigate("/login");
+      }
     } catch (error) {
       console.error("Login error:", error);
       alert("Login failed. Please check your credentials.");
