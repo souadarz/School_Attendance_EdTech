@@ -46,6 +46,14 @@ export const findById = async (id: number): Promise<Session | null> => {
   });
 };
 
+export const findSessionTeacher = async (id: number): Promise<Session[]> => {
+
+  return sessionRepository.find({
+    where: { teacher: {id: id}},
+    relations: ["subject", "class"]
+  });
+}
+
 export const update = async (
   id: number,
   data: UpdateSessionDTO

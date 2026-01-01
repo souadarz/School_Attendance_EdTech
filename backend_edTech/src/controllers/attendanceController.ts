@@ -10,14 +10,20 @@ import { CreateAttendanceDTO } from "../dtos/attedance/cearteAttendanceDto";
 
 export const createAttendance = async (req: Request, res: Response) => {
   try {
-    const attendance = await create(req.body as CreateAttendanceDTO);
+    if(!req.user) return res.status(401).json({message: "unautenticated"});
+
+    const teacherId = req.user.id;
+    const {studentId, sessionId, status} = req.body;
+
+    const attendance = await create(teacherId, req.body as CreateAttendanceDTO);
     res.status(201).json({
       success: true,
       message: "attendance created successfully",
       data: attendance,
     });
   } catch (error: any) {
-    res.status(400).json({
+    const status = error.status || 400;
+    res.status(status).json({
       success: false,
       message: error.message || "Failed to create attendance",
     });

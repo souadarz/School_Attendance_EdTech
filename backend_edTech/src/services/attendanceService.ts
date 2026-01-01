@@ -11,13 +11,45 @@ const sessionRepository = AppDataSource.getRepository(Session);
 const attendanceRepository = AppDataSource.getRepository(Attendance);
 
 export const create = async (
+  id: number,
   data: CreateAttendanceDTO
 ): Promise<Attendance> => {
-  const student = await UserRepository.findOneBy({ id: data.studentId });
-  if (!student) throw new Error("student not found");
+  const existingAttendance = await attendanceRepository.exists({
+    where: {
+      student: { id: data.studentId },
+      session: { id: data.sessionId },
+    },
+  });
 
-  const session = await sessionRepository.findOneBy({ id: data.sessionId });
-  if (!session) throw new Error("session not found");
+  if (existingAttendance) {
+    throw {
+      status: 400,
+      message: "attendance for this student and session already exists",
+    };
+  }
+
+  const student = await UserRepository.findOne({
+    where: { id: data.studentId },
+    relations: ["class"],
+  });
+  if (!student) throw { status: 404, message: "student not found" };
+
+  const session = await sessionRepository.findOne({
+    where: { id: data.sessionId },
+    relations: ["class", "teacher"],
+  });
+  if (!session) throw { status: 404, message: "Session not found" };
+
+  if (session.teacher.id !== id) {
+    throw { status: 403, message: "You are not the teacher of this session" };
+  }
+
+  if (student.class?.id !== session.class.id) {
+    throw {
+      status: 403,
+      message: "This student does not belong to your class",
+    };
+  }
 
   const attendance = attendanceRepository.create({
     status: data.status,
@@ -46,27 +78,30 @@ export const findById = async (id: number): Promise<Attendance> => {
   return attendance;
 };
 
-export const update = async (id: number, data: UpdateAttendanceDTO): Promise<Attendance> => {
+export const update = async (
+  id: number,
+  data: UpdateAttendanceDTO
+): Promise<Attendance> => {
   const attendance = await findById(id);
 
-  if(data.status) attendance.status = data.status;
+  if (data.status) attendance.status = data.status;
 
-  if(data.studentId) {
-    const student = await UserRepository.findOneBy({id: data.studentId});
-    if(!student) throw new Error("student not found");
-    attendance.student = student
+  if (data.studentId) {
+    const student = await UserRepository.findOneBy({ id: data.studentId });
+    if (!student) throw new Error("student not found");
+    attendance.student = student;
   }
 
-  if(data.sessionId){
-    const session = await sessionRepository.findOneBy({id: data.sessionId});
-    if(!session) throw new Error("session not found");
+  if (data.sessionId) {
+    const session = await sessionRepository.findOneBy({ id: data.sessionId });
+    if (!session) throw new Error("session not found");
     attendance.session = session;
   }
 
   return attendanceRepository.save(attendance);
-}
+};
 
 export const delet = async (id: number): Promise<void> => {
-    const result = await attendanceRepository.delete(id);
-    if(result.affected === 0) throw new Error("attendance not found");
-}
+  const result = await attendanceRepository.delete(id);
+  if (result.affected === 0) throw new Error("attendance not found");
+};

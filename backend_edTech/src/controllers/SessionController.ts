@@ -4,6 +4,7 @@ import {
   delet,
   findAll,
   findById,
+  findSessionTeacher,
   update,
 } from "../services/sessionService";
 import { CreateSessionDTO } from "../dtos/session/createSessionDto";
@@ -61,6 +62,26 @@ export const getSessionById = async (req: Request, res: Response) => {
       .json({ message: error.message || "failed to retrieve sessions" });
   }
 };
+
+export const getMySessions = async (req: Request, res: Response) => {
+  try {
+
+    if(!req.user) return res.status(401).json({message: "Unauthenticated"})
+
+    const teacherId = req.user.id;
+    const sessions = await findSessionTeacher(teacherId);
+
+    res.status(200).json({
+      success: true,
+      message: "teacher sessions retrieved successfully",
+      data: sessions
+    })
+  } catch (error: any) {
+    res
+      .status(500)
+      .json({ message: error.message || "failed to retrieve teacher sessions" });
+  }
+}
 
 export const updateSession = async (req: Request, res: Response) => {
   try {
