@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from "react-router-dom";
-import {Sidebar} from "./SideBar"
+import {Sidebar} from "./Sidebar"
 import { useAuth } from "../hooks/useAuth";
 
 const ProtectedLayout = () => {

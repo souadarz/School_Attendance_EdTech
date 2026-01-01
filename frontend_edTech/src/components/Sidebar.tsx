@@ -14,13 +14,13 @@ export const Sidebar: React.FC<{
   onLogout: () => void;
 }> = ({ role, onLogout }) => {
   const teacherMenu = [
-    { to: "#", label: "Dashboard", icon: LayoutDashboard },
+    { to: "/dashboardTeacher", label: "Dashboard", icon: LayoutDashboard },
     { to: "attendance", label: "Saisir présences", icon: ClipboardCheck },
     { to: "sessions", label: "My sessions", icon: Calendar },
   ];
 
   const adminMenu = [
-    { to: "dashboard", label: "Dashboard", icon: LayoutDashboard },
+    { to: "#", label: "Dashboard", icon: LayoutDashboard },
     { to: "statistics", label: "Statistics", icon: BarChart3 },
     { to: "students", label: "Students", icon: Users },
     { to: "consultation", label: "History", icon: Calendar },
