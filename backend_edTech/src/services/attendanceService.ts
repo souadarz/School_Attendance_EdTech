@@ -105,3 +105,37 @@ export const delet = async (id: number): Promise<void> => {
   const result = await attendanceRepository.delete(id);
   if (result.affected === 0) throw new Error("attendance not found");
 };
+
+export const getSessionAttendanceData = async (sessionId: number) => {
+  const session = await sessionRepository.findOne({
+    where: { id: sessionId },
+    relations: {
+      class: { students: true },
+      attendances: { student: true },
+      subject: true,
+    },
+  });
+
+  if (!session) {
+    throw new Error("Session not found");
+  }
+
+  const students = session.class.students.map((student) => {
+    const attendance = session.attendances.find(
+      (a) => a.student.id === student.id
+    );
+
+    return {
+      studentId: student.id,
+      fullname: student.fullname,
+      status: attendance?.status ?? null,
+    };
+  });
+
+  return {
+    sessionId: session.id,
+    className: session.class.name,
+    subjectName: session.subject.name,
+    students,
+  };
+};

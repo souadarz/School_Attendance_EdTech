@@ -6,6 +6,6 @@ export interface Attendance {
   id: number;
   status: AttendanceStatus;
   createdAt: string;
-  student?: User;
-  session?: Session;
+  student: User;
+  session: Session;
 }
