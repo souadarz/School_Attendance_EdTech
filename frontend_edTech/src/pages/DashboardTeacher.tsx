@@ -1,23 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { Calendar, ClipboardCheck, BarChart3, CheckCircle } from 'lucide-react';
-import type { Session } from '../../../shared/interfaces/Session';
-import { getTeacherSessions } from '../services/sessionService';
+import React, { useEffect, useState } from "react";
+import { Calendar, ClipboardCheck, BarChart3, CheckCircle } from "lucide-react";
+import type { Session } from "../../../shared/interfaces/Session";
+import { getTeacherSessions } from "../services/sessionService";
+
+interface TeacherDashboardProps {
+  onNavigate: (page: string) => void;
+}
 
 const TeacherDashboard: React.FC<TeacherDashboardProps> = ({ onNavigate }) => {
-
   const [sessions, setSessions] = useState<Session[]>([]);
-  const [loading , setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
 
-  useEffect(()=>{
-    const fetchSessions = async () =>{
-        try {
-            const sessions = await getTeacherSessions();
-            setSessions(sessions);
-        } catch (error) {
-            console.error("error loading sessions", error);
-        }finally{
-            setLoading(false);
-        }
+  useEffect(() => {
+    const fetchSessions = async () => {
+      try {
+        const sessions = await getTeacherSessions();
+        setSessions(sessions);
+      } catch (error) {
+        console.error("error loading teacher sessions", error);
+      } finally {
+        setLoading(false);
+      }
     };
     fetchSessions();
   }, []);
@@ -27,23 +30,30 @@ const TeacherDashboard: React.FC<TeacherDashboardProps> = ({ onNavigate }) => {
   const sessionsToday = sessions.filter((s) => {
     const startDate = new Date(s.start_date);
     return (
-        startDate.getFullYear() === today.getFullYear() &&
-        startDate.getMonth() === today.getMonth() &&
-        startDate.getDate() === today.getDate()
+      startDate.getFullYear() === today.getFullYear() &&
+      startDate.getMonth() === today.getMonth() &&
+      startDate.getDate() === today.getDate()
     );
-});
-    const todaySessions = sessionsToday.length;
-    const toComplete = sessionsToday.filter(
-  (s) => !s.attendances || s.attendances.length === 0
-).length;
+  });
+  const todaySessions = sessionsToday.length;
+  const toComplete = sessionsToday.filter((s) => !isCompleted(s)).length;
+
+  const isCompleted = (session: Session): boolean =>
+    !!session.attendances && session.attendances.length > 0;
 
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div> 
+        <div>
           <h1 className="text-2xl font-bold text-[#46494c]">Dashboard</h1>
           <p className="text-sm mt-1 text-[#4c5c68]">
-            {today.toLocaleString("fr-FR", {year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit"})}
+            {today.toLocaleString("fr-FR", {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
           </p>
         </div>
       </div>
@@ -55,7 +65,9 @@ const TeacherDashboard: React.FC<TeacherDashboardProps> = ({ onNavigate }) => {
               <p className="text-sm font-medium text-[#4c5c68]">
                 Today's Sessions
               </p>
-              <p className="text-3xl font-bold mt-2 text-[#46494c]">{todaySessions}</p>
+              <p className="text-3xl font-bold mt-2 text-[#46494c]">
+                {todaySessions}
+              </p>
             </div>
             <Calendar className="w-10 h-10 text-[#1985a1]" />
           </div>
@@ -64,10 +76,10 @@ const TeacherDashboard: React.FC<TeacherDashboardProps> = ({ onNavigate }) => {
         <div className="bg-white rounded-lg shadow p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-[#4c5c68]">
-                To Complete
+              <p className="text-sm font-medium text-[#4c5c68]">To Complete</p>
+              <p className="text-3xl font-bold mt-2 text-[#46494c]">
+                {toComplete}
               </p>
-              <p className="text-3xl font-bold mt-2 text-[#46494c]">{toComplete}</p>
             </div>
             <ClipboardCheck className="w-10 h-10 text-[#1985a1]" />
           </div>
@@ -88,9 +100,7 @@ const TeacherDashboard: React.FC<TeacherDashboardProps> = ({ onNavigate }) => {
 
       <div className="bg-white rounded-lg shadow">
         <div className="p-6 border-b border-[#dcdcdd]">
-          <h2 className="text-lg font-bold text-[#46494c]">
-            Today's Sessions
-          </h2>
+          <h2 className="text-lg font-bold text-[#46494c]">Today's Sessions</h2>
         </div>
 
         <div className="p-6">
@@ -105,24 +115,36 @@ const TeacherDashboard: React.FC<TeacherDashboardProps> = ({ onNavigate }) => {
                     {session.subject?.name}
                   </h3>
                   <p className="text-sm mt-1 text-[#4c5c68]">
-                    {session.class?.name} • {new Date(session.start_date).toLocaleString("fr-FR", {year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit"})} - {new Date(session.end_date).toLocaleString("fr-FR", { hour: "2-digit", minute: "2-digit"})}
+                    {session.class?.name} •{" "}
+                    {new Date(session.start_date).toLocaleString("fr-FR", {
+                      year: "numeric",
+                      month: "2-digit",
+                      day: "2-digit",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}{" "}
+                    -{" "}
+                    {new Date(session.end_date).toLocaleString("fr-FR", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
                   </p>
                 </div>
 
                 <div>
-                  {/* {session.completed ? (
+                  {isCompleted(session) ? (
                     <span className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-green-100 text-green-700 text-sm font-medium">
                       <CheckCircle className="w-4 h-4" />
                       Completed
                     </span>
-                  ) : ( */}
+                  ) : (
                     <button
-                      onClick={() => onNavigate('attendance')}
+                      onClick={() => onNavigate("attendance")}
                       className="px-4 py-2 rounded-lg bg-[#1985a1] text-white font-medium text-sm transition-opacity hover:opacity-90"
                     >
                       Take Attendance
                     </button>
-                  {/* )} */}
+                  )}
                 </div>
               </div>
             ))}

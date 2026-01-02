@@ -1,8 +1,8 @@
 import { Role } from "../enums/Role.enum";
-import { Class } from "./Class";
-import { Attendance} from "./Attendance";
-import { Session } from "./Session";
-import { ParentStudent } from "./ParentStudent";
+import type { Class } from "./Class";
+import type { Attendance} from "./Attendance";
+import type { Session } from "./Session";
+import type { ParentStudent } from "./ParentStudent";
 
 export interface User {
   id: number;
@@ -11,12 +11,12 @@ export interface User {
   password?: string;
   studentCode?: string | null;
   role: Role;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 
-  class?: Class | null; // relation ManyToOne vers Class
-  sessions?: Session[]; // relation OneToMany vers Session (enseignant)
-  attendances?: Attendance[]; // relation OneToMany vers Attendance (étudiant)
-  parents?: ParentStudent[]; // relation OneToMany vers ParentStudent (parents)
-  childrens?: ParentStudent[]; // relation OneToMany vers ParentStudent (enfants)
+  class?: Class | null;
+  sessions?: Session[];
+  attendances?: Attendance[];
+  parents?: ParentStudent[];
+  childrens?: ParentStudent[];
 }

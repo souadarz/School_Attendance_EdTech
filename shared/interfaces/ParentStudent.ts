@@ -1,9 +1,9 @@
-import { User } from "./User";
+import type{ User } from "./User";
 
 export interface ParentStudent {
   id: number;
   relation: string;
-  createdAt: Date;
+  createdAt: string;
   parent?: User;
   student?: User;
 }

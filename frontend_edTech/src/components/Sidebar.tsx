@@ -16,7 +16,7 @@ export const Sidebar: React.FC<{
   const teacherMenu = [
     { to: "/dashboardTeacher", label: "Dashboard", icon: LayoutDashboard },
     { to: "attendance", label: "Saisir présences", icon: ClipboardCheck },
-    { to: "sessions", label: "My sessions", icon: Calendar },
+    { to: "/sessionsTeacher", label: "My sessions", icon: Calendar },
   ];
 
   const adminMenu = [

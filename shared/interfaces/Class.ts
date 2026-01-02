@@ -1,9 +1,9 @@
-import { User } from "./User";
+import type { User } from "./User";
 
 export interface Class {
   id: number;
   name: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
   students?: User[]
 }

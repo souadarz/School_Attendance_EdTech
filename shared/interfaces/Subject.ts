@@ -1,8 +1,8 @@
-import { Session } from "./Session";
+import type { Session } from "./Session";
 export interface Subject {
   id: number;
   name: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
   sessions?: Session;
 }
