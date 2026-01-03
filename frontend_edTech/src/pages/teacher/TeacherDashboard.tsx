@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Calendar, ClipboardCheck, BarChart3, CheckCircle } from "lucide-react";
-import type { Session } from "../../../shared/interfaces/Session";
-import { getTeacherSessions } from "../services/sessionService";
+import type { Session } from "../../../../shared/interfaces/Session";
+import { getTeacherSessions } from "../../services/sessionService";
 
 interface TeacherDashboardProps {
   onNavigate: (page: string) => void;

@@ -1,16 +1,10 @@
 import React, { useEffect, useState } from "react";
-import {
-  Calendar,
-  Clock,
-  CheckCircle,
-  XCircle,
-} from "lucide-react";
-import type { Session } from "../../../shared/interfaces/Session";
-import { getTeacherSessions } from "../services/sessionService";
-import AttendanceModal from "../components/AttendanceModal";
+import { Calendar, Clock, CheckCircle, XCircle } from "lucide-react";
+import type { Session } from "../../../../shared/interfaces/Session";
+import { getTeacherSessions } from "../../services/sessionService";
+import AttendanceModal from "../../components/AttendanceModal";
 
-const SessionsTeacher: React.FC = () => {
-
+const TeacherSessions: React.FC = () => {
   const [sessions, setSessions] = useState<Session[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -30,15 +24,15 @@ const SessionsTeacher: React.FC = () => {
     fetchSessions();
   }, []);
 
-  const handleOpenModal = (session: Session | null)=>{
+  const handleOpenModal = (session: Session | null) => {
     setSelectedSession(session);
     setIsModalOpen(true);
-  }
+  };
 
-  const handleCloseModal = ()=>{
+  const handleCloseModal = () => {
     setIsModalOpen(false);
     setSelectedSession(null);
-  }
+  };
 
   const isCompleted = (session: Session): boolean =>
     !!session.attendances && session.attendances.length > 0;
@@ -57,9 +51,7 @@ const SessionsTeacher: React.FC = () => {
 
       <div className="bg-white rounded-lg shadow p-6">
         {loading && (
-          <p className="text-center text-[#4c5c68]">
-            Loading sessions...
-          </p>
+          <p className="text-center text-[#4c5c68]">Loading sessions...</p>
         )}
 
         {/* Sessions */}
@@ -67,7 +59,7 @@ const SessionsTeacher: React.FC = () => {
           {sessions.map((session) => (
             <div
               key={session.id}
-              className= "flex flex-col lg:flex-row lg:items-center justify-between p-4 rounded-lg border gap-4"
+              className="flex flex-col lg:flex-row lg:items-center justify-between p-4 rounded-lg border gap-4"
             >
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-2">
@@ -75,7 +67,7 @@ const SessionsTeacher: React.FC = () => {
                     {session.subject?.name}
                   </h3>
 
-                  {isCompleted(session)? (
+                  {isCompleted(session) ? (
                     <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">
                       <CheckCircle className="w-3 h-3" />
                       Completed
@@ -95,12 +87,25 @@ const SessionsTeacher: React.FC = () => {
                   </div>
                   <div className="flex items-center gap-2">
                     <Calendar className="w-4 h-4" />
-                    <span>{new Date(session.start_date).toLocaleDateString()}</span>
+                    <span>
+                      {new Date(session.start_date).toLocaleDateString()}
+                    </span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Clock className="w-4 h-4" />
                     <span>
-                      {new Date(session.start_date).toLocaleString("fr-FR", {year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit"})} - {new Date(session.end_date).toLocaleString("fr-FR", { hour: "2-digit", minute: "2-digit"})}
+                      {new Date(session.start_date).toLocaleString("fr-FR", {
+                        year: "numeric",
+                        month: "2-digit",
+                        day: "2-digit",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}{" "}
+                      -{" "}
+                      {new Date(session.end_date).toLocaleString("fr-FR", {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
                     </span>
                   </div>
                 </div>
@@ -112,9 +117,10 @@ const SessionsTeacher: React.FC = () => {
                     View Details
                   </button>
                 ) : (
-                  <button 
-                  onClick={()=> handleOpenModal(session)}
-                  className="px-4 py-2 rounded-lg bg-[#1985a1] text-white font-medium text-sm transition-opacity hover:opacity-90">
+                  <button
+                    onClick={() => handleOpenModal(session)}
+                    className="px-4 py-2 rounded-lg bg-[#1985a1] text-white font-medium text-sm transition-opacity hover:opacity-90"
+                  >
                     Take Attendance
                   </button>
                 )}
@@ -142,4 +148,4 @@ const SessionsTeacher: React.FC = () => {
   );
 };
 
-export default SessionsTeacher;
+export default TeacherSessions;

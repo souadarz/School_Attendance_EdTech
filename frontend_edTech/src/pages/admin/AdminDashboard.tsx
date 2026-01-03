@@ -1,7 +1,7 @@
 import React from "react";
 import { XCircle, Clock } from "lucide-react";
 
-const DashboardAdmin: React.FC = () => {
+const AdminDashboard: React.FC = () => {
   console.log("dashboard page");
 
   return (
@@ -150,4 +150,4 @@ const DashboardAdmin: React.FC = () => {
   );
 };
 
-export default DashboardAdmin;
+export default AdminDashboard;

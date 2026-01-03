@@ -4,10 +4,10 @@ import api from "../services/axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
-export function Login() {
+export const Login: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [role, setRole] = useState<Role>(Role.TEACHER);
+  // const [role, setRole] = useState<Role>(Role.TEACHER);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
   const { login } = useAuth();
@@ -20,14 +20,14 @@ export function Login() {
 
     try {
       console.log("inside handle submit");
-      const res = await api.post("/auth/login", { email, password, role });
+      const res = await api.post("/auth/login", { email, password});
       console.log("API Response:", res.data);
       login(res.data.user, res.data.token);
 
       if (res.data.user.role === Role.ADMIN) {
-        navigate("/dashboardAdmin");
+        navigate("/adminDashboard");
       } else if (res.data.user.role === Role.TEACHER){
-        navigate("/dashboardTeacher");
+        navigate("/teacherDashboard");
       }else {
         navigate("/login");
       }
@@ -53,7 +53,7 @@ export function Login() {
           <div className="space-y-6">
             {/* Select Role */}
             <div>
-              <label
+              {/* <label
                 htmlFor="role"
                 className="block mb-2 font-semibold text-[#46494c]"
               >
@@ -69,7 +69,7 @@ export function Login() {
                 <option value={Role.ADMIN}>Administration</option>
                 <option value={Role.STUDENT}>Student</option>
                 <option value={Role.PARENT}>Parent</option>
-              </select>
+              </select> */}
             </div>
 
             <div>

@@ -126,7 +126,7 @@ export const getSessionAttendanceData = async (sessionId: number) => {
     );
 
     return {
-      studentId: student.id,
+      id: student.id,
       fullname: student.fullname,
       status: attendance?.status ?? null,
     };
