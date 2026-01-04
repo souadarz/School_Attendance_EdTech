@@ -17,12 +17,6 @@ export async function seedUsers(dataSource: DataSource) {
     { fullname: "Teacher One", email: "teacher1@school.com", password, role: Role.TEACHER },
     { fullname: "Teacher Two", email: "teacher2@school.com", password, role: Role.TEACHER },
 
-    // students
-    { fullname: "Student One", email: "student1@school.com", password, role: Role.STUDENT, studentCode: "STU001" },
-    { fullname: "Student Two", email: "student2@school.com", password, role: Role.STUDENT, studentCode: "STU002" },
-    { fullname: "Student Tree", email: "student3@school.com", password, role: Role.STUDENT, studentCode: "STU003" },
-    { fullname: "Student for", email: "student4@school.com", password, role: Role.STUDENT, studentCode: "STU004" },
-
     // parents
     { fullname: "Parent One", email: "parent1@school.com", password, role: Role.PARENT },
     { fullname: "Parent Two", email: "parent2@school.com", password, role: Role.PARENT },

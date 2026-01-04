@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { Class } from "./Class";
+import { ClassEntity } from "./ClassEntity";
 import { User } from "./User";
 import { Subject } from "./Subject";
 import { Attendance } from "./Attendance";
@@ -29,13 +29,15 @@ export class Session {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToOne(() => Class, (classe) => classe.sessions, { onDelete: "CASCADE"})
-  class: Class;
+  @ManyToOne(() => ClassEntity, (classEntity) => classEntity.sessions, {
+    onDelete: "CASCADE",
+  })
+  class: ClassEntity;
 
   @ManyToOne(() => Subject, (subject) => subject.sessions)
   subject: Subject;
 
-  @ManyToOne(() => User, (user) => user.sessions, {onDelete: "SET NULL"})
+  @ManyToOne(() => User, (user) => user.sessions, { onDelete: "SET NULL" })
   teacher: User;
 
   @OneToMany(() => Attendance, (Attendance) => Attendance.session)

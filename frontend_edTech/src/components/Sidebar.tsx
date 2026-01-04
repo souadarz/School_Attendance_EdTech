@@ -7,6 +7,7 @@ import {
   BarChart3,
   Calendar,
   LogOut,
+  GraduationCap
 } from "lucide-react";
 
 export const Sidebar: React.FC<{
@@ -14,9 +15,9 @@ export const Sidebar: React.FC<{
   onLogout: () => void;
 }> = ({ role, onLogout }) => {
   const teacherMenu = [
-    { to: "/dashboardTeacher", label: "Dashboard", icon: LayoutDashboard },
-    { to: "attendance", label: "Saisir présences", icon: ClipboardCheck },
-    { to: "/sessionsTeacher", label: "My sessions", icon: Calendar },
+    { to: "/teacherDashboard", label: "Dashboard", icon: LayoutDashboard },
+    { to: "/teacherClasses", label: "My classes", icon: ClipboardCheck },
+    { to: "/teacherSessions", label: "My sessions", icon: Calendar },
   ];
 
   const adminMenu = [
@@ -37,8 +38,9 @@ export const Sidebar: React.FC<{
     <>
       <aside className="w-64 min-h-screen bg-[#46494c] text-white p-4">
         <div className="p-6 border-b" style={{ borderColor: "#4c5c68" }}>
-          <div className="flex items-center justify-between">
-            <h2 className="text-xl font-bold text-[#1985a1]">EdTech</h2>
+          <div className="flex items-center justify-baseline">
+            <GraduationCap className="w-6 h-6" />
+            <h2 className="text-xl font-bold text-[#1985a1] ml-2">EdTech</h2>
           </div>
           <p className="text-sm mt-1" style={{ color: "#c5c3c6" }}>
             {role === "admin"

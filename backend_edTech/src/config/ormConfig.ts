@@ -3,7 +3,7 @@ import { DataSource } from "typeorm";
 import { User } from "../entities/User";
 import { Subject } from "../entities/Subject";
 import { Session } from "../entities/Session";
-import { Class } from "../entities/Class";
+import { ClassEntity } from "../entities/ClassEntity";
 import dotenv from "dotenv";
 import { Attendance } from "../entities/Attendance";
 import { ParentStudent } from "../entities/ParentStudent";
@@ -19,6 +19,7 @@ export const AppDataSource = new DataSource({
     database: process.env.DB_NAME || "edtech",
     synchronize: false,
     logging: true,
-    entities: [User, Subject, Session, Class, Attendance, ParentStudent],
+    cache: false,
+    entities: [User, Subject, Session, ClassEntity, Attendance, ParentStudent],
     migrations: ["src/migrations/*.ts"],
 });

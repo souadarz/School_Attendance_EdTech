@@ -1,16 +1,25 @@
-// src/database/classSeeder.ts
 import { DataSource } from "typeorm";
-import { Class } from "../entities/Class";
+import { ClassEntity } from "../entities/ClassEntity";
+import { User } from "../entities/User";
+import { Role } from "../../../shared/enums/Role.enum";
 
 export async function seedClasses(dataSource: DataSource) {
-  const classRepository = dataSource.getRepository(Class);
+  const classRepository = dataSource.getRepository(ClassEntity);
+  const userRepository = dataSource.getRepository(User);
 
-  const classes: Partial<Class>[] = [
-    { name: "Class 1A" },
-    { name: "Class 1B" },
-    { name: "Class 2A" },
-    { name: "Class 2B" },
-    { name: "Class 3A" },
+  const teachers = await userRepository.find({ where: { role: Role.TEACHER } });
+
+  if (teachers.length === 0) {
+    console.log("No teachers found, cannot seed classes.");
+    return;
+  }
+
+  const classes: Partial<ClassEntity>[] = [
+    { name: "Class 1A", teacher: teachers[0] },
+    { name: "Class 1B", teacher: teachers[1] },
+    { name: "Class 2A", teacher: teachers[0] },
+    { name: "Class 2B", teacher: teachers[1] },
+    { name: "Class 3A", teacher: teachers[0] },
   ];
 
   for (const cls of classes) {

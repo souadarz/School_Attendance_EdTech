@@ -19,4 +19,5 @@ export interface User {
   attendances?: Attendance[];
   parents?: ParentStudent[];
   childrens?: ParentStudent[];
+  classes?: Class[];
 }

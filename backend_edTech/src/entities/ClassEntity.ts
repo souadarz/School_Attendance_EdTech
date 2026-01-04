@@ -1,9 +1,9 @@
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { User } from "./User";
 import { Session } from "./Session";
 
 @Entity("classes")
-export class Class {
+export class ClassEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -21,4 +21,8 @@ export class Class {
 
   @OneToMany(() => Session, (session) => session.class)
   sessions: Session[];
+
+  @ManyToOne(()=> User, (user)=>user.classes)
+  @JoinColumn({ name: "teacherId" }) 
+  teacher: User;
 }

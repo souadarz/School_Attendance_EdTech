@@ -5,5 +5,6 @@ export interface Class {
   name: string;
   createdAt: string;
   updatedAt: string;
-  students?: User[]
+  students?: User[];
+  teacher: User;
 }
