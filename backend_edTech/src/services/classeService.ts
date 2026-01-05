@@ -5,7 +5,7 @@ const classRepository = AppDataSource.getRepository(ClassEntity);
 
 export const getClasses = async (): Promise<ClassEntity[]> => {
   const classes = await classRepository.find({
-    relations: ["students", "sessions"],
+    relations: ["students", "sessions", "teacher"],
   });
 
   if (!classes) {

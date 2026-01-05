@@ -21,24 +21,23 @@ export const authenticate = async (
       });
     }
 
-    const decoded = jwt.verify(token, JWT_SECRET) as JwtPayload;
+    const decoded = jwt.verify(token, JWT_SECRET) as { id: number };;
 
     if (!decoded.id) {
       return res.status(401).json({ message: "Invalid token." });
     }
 
-    const user = await userRepository.findOne({
-      where: { id: decoded.id },
-      select: ["id", "email", "role"],
-    });
+    // const user = await userRepository.findOne({
+    //   where: { id: decoded.id },
+    //   select: ["id", "email", "role"],
+    // });
 
-    if (!user) {
-      return res.status(401).json({
-        message: "User not found",
-      });
-    }
-
-    req.user = user;
+    // if (!user) {
+    //   return res.status(401).json({
+    //     message: "User not found",
+    //   });
+    // }
+    req.userId = decoded.id;
     next();
   } catch (error) {
     return res.status(401).json({
@@ -48,14 +47,24 @@ export const authenticate = async (
 };
 
 export const roleMiddleware = (...roles: Role[]) => {
-  return (req: Request, res: Response, next: NextFunction) => {
-    if (!req.user) {
+  return async (req: Request, res: Response, next: NextFunction) => {
+    if (!req.userId) {
       return res.status(401).json({
         message: "User not authenticated",
       });
     }
+    const user = await userRepository.findOne({
+      where: { id: req.userId },
+      select: ["id", "role"],
+    });
 
-    if (!roles.includes(req.user.role)) {
+    if (!user) {
+      return res.status(401).json({
+        message: "User not found",
+      });
+    }
+
+    if (!roles.includes(user.role)) {
       return res
         .status(403)
         .json({ message: "Access denied: role not authorized" });

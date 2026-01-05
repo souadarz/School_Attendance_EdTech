@@ -1,6 +1,5 @@
 import type { AttendanceStatus } from "../../../shared/enums/AttendanceStatus.enum";
 import type { ApiResponse } from "../../../shared/interfaces/ApiResponse";
-import type { Attendance } from "../../../shared/interfaces/Attendance";
 import type { SessionAttendanceResponse } from "../../../shared/interfaces/SessionAttendanceResponse";
 import api from "./axios";
 
@@ -14,7 +13,7 @@ export const updateSessionAttendance = async (
   return res.data.data;
 };
 
-export const getSessionAttendance =  async (sessionId: number): Promise<Attendance> => {
+export const getSessionAttendance =  async (sessionId: number): Promise<SessionAttendanceResponse> => {
    const res = await api.get<ApiResponse<SessionAttendanceResponse>>(`/attendances/sessions/${sessionId}/`);
    return res.data.data;
 }

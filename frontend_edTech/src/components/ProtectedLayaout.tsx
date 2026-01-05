@@ -1,8 +1,14 @@
+import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import {Sidebar} from "./Sidebar"
+import { Sidebar } from "../components/Sidebar";
 import { useAuth } from "../hooks/useAuth";
+import { Role } from "../../../shared/enums/Role.enum";
 
-const ProtectedLayout = () => {
+interface ProtectedLayoutProps {
+  roles?: Role[];
+}
+
+const ProtectedLayout: React.FC<ProtectedLayoutProps> = ({ roles = [] }) => {
   const { user, loading, isAuthenticated, logout } = useAuth();
 
   if (loading) return <p>Loading...</p>;
@@ -11,6 +17,11 @@ const ProtectedLayout = () => {
     return <Navigate to="/login" replace />;
   }
 
+  if (roles.length > 0 && !roles.includes(user.role)) {
+    return <Navigate to="/403" replace />;
+  }
+
+ 
   return (
     <div className="flex">
       <Sidebar role={user.role} onLogout={logout} />

@@ -120,7 +120,7 @@ export const getSessionAttendanceData = async (sessionId: number) => {
     throw new Error("Session not found");
   }
 
-  const students = session.class.students.map((student) => {
+  const students = session.class.students.map((student: User) => {
     const attendance = session.attendances.find(
       (a) => a.student.id === student.id
     );

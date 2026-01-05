@@ -1,5 +1,5 @@
 import { AppDataSource } from "../config/ormConfig";
-import { Class } from "../entities/Class";
+import { ClassEntity } from "../entities/ClassEntity";
 import { Session } from "../entities/Session";
 import { Subject } from "../entities/Subject";
 import { User } from "../entities/User";
@@ -7,22 +7,22 @@ import { CreateSessionDTO } from "../dtos/session/createSessionDto";
 import { UpdateSessionDTO } from "../dtos/session/updateSessionDto";
 
 const sessionRepository = AppDataSource.getRepository(Session);
-const classRepository = AppDataSource.getRepository(Class);
+const classRepository = AppDataSource.getRepository(ClassEntity);
 const subjectRepository = AppDataSource.getRepository(Subject);
 const userRepository = AppDataSource.getRepository(User);
 
 export const create = async (data: CreateSessionDTO): Promise<Session> => {
   const classe = await classRepository.findOneBy({ id: data.classId });
   if (!classe) throw new Error("class not found");
-  
+
   const subject = await subjectRepository.findOneBy({
     id: data.subjectId,
   });
   if (!subject) throw new Error("subject not found");
-  
+
   const teacher = await userRepository.findOneBy({ id: data.teacherId });
   if (!teacher) throw new Error("teacher not found");
-  
+
   const session = sessionRepository.create({
     start_date: data.start_date,
     end_date: data.end_date,
@@ -35,9 +35,9 @@ export const create = async (data: CreateSessionDTO): Promise<Session> => {
 
 export const findAll = async (): Promise<Session[]> => {
   return sessionRepository.find({
-    relations: ["class", "subject", "teacher", "attendances"]
-  });  
-}
+    relations: ["class", "subject", "teacher", "attendances"],
+  });
+};
 
 export const findById = async (id: number): Promise<Session | null> => {
   return sessionRepository.findOne({
@@ -47,12 +47,11 @@ export const findById = async (id: number): Promise<Session | null> => {
 };
 
 export const findSessionTeacher = async (id: number): Promise<Session[]> => {
-
   return sessionRepository.find({
-    where: { teacher: {id: id}},
-    relations: ["subject", "class"]
+    where: { teacher: { id: id } },
+    relations: ["subject", "class"],
   });
-}
+};
 
 export const update = async (
   id: number,
@@ -85,7 +84,7 @@ export const update = async (
   return sessionRepository.save(session);
 };
 
-export const delet = async (id : number): Promise<void> => {
+export const delet = async (id: number): Promise<void> => {
   const result = await sessionRepository.delete(id);
-  if(result.affected === 0) throw new Error("session not found");
-}
+  if (result.affected === 0) throw new Error("session not found");
+};

@@ -6,3 +6,8 @@ export const getTeacherClasses = async (): Promise<Class[]> => {
     const res = await api.get<ApiResponse<Class[]>>("/classes/teacher");
     return res.data.data;
 }
+
+export const getAllClasses = async (): Promise<Class[]> => {
+    const res= await api.get<ApiResponse<Class[]>>("/classes");
+    return res.data.data;
+}

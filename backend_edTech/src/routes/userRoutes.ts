@@ -6,6 +6,6 @@ import { authenticate, roleMiddleware } from "../middlewares/auth";
 const router = express.Router();
 
 router.get("/", roleMiddleware(Role.ADMIN, Role.STUDENT), getAllStudents);
-router.get("/me", authenticate, getUserConnected);
+router.get("/me", getUserConnected);
 
 export default router;

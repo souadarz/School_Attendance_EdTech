@@ -4,7 +4,7 @@ import {
   LayoutDashboard,
   Users,
   ClipboardCheck,
-  BarChart3,
+  // BarChart3,
   Calendar,
   LogOut,
   GraduationCap
@@ -21,10 +21,10 @@ export const Sidebar: React.FC<{
   ];
 
   const adminMenu = [
-    { to: "#", label: "Dashboard", icon: LayoutDashboard },
-    { to: "statistics", label: "Statistics", icon: BarChart3 },
-    { to: "students", label: "Students", icon: Users },
-    { to: "consultation", label: "History", icon: Calendar },
+    { to: "/adminDashboard", label: "Dashboard", icon: LayoutDashboard },
+    { to: "/classes", label: "Classes", icon: Users },
+    { to: "/sessions", label: "Sessions", icon: Calendar },
+    // { to: "consultation", label: "History", icon: Calendar },
   ];
 
   const parentMenu = [
@@ -32,7 +32,7 @@ export const Sidebar: React.FC<{
   ];
 
   const menu =
-    role === Role.ADMIN ? adminMenu : Role.TEACHER ? teacherMenu : parentMenu;
+    role === Role.ADMIN ? adminMenu : role === Role.TEACHER ? teacherMenu : parentMenu;
 
   return (
     <>
